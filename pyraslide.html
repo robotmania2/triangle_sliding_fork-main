@@ -30,6 +30,14 @@
             font-size: 20px;
             color: black;
         }
+        header {
+            text-align: center;
+            margin-bottom: 2%;
+        }
+        .statistics {
+            color: #00ffa8;
+        }
+
     </style>
     <script type="text/javascript">
         <!--
@@ -256,21 +264,54 @@
                     timeList.push (finaltime);
                     movesList.push (moves);
                     tpsList.push (moves/finaltime);
-                    //average calculations
-                    console.log (timeList.at(-1));
-                    console.log (movesList);
-                    console.log (tpsList);
-                    //mo3 variables
+
+                    //mo3 stuff
                     var mo3time = ((timeList.at(-1)+timeList.at(-2)+timeList.at(-3))/3) ;
                     var mo3moves = ((movesList.at(-1)+movesList.at(-2)+movesList.at(-3))/3) ;
                     var mo3tps = ((tpsList.at(-1)+tpsList.at(-2)+tpsList.at(-3))/3) ;
-                    console.log (mo3time);
                     mo3tps = mo3tps.toFixed(3);
                     mo3time = mo3time.toFixed(3);
                     mo3moves = mo3moves.toFixed(3);
                     var mo3text = "Mean of 3: " + mo3time + ", " + mo3moves + " moves, " + mo3tps + " tps";
                     $("mean3").innerHTML = mo3text;
 
+                    //ao5
+                    var ao5timearray = [timeList.at(-1), timeList.at(-2), timeList.at(-3), timeList.at(-4), timeList.at(-5)];
+                    var ao5movesarray = [movesList.at(-1), movesList.at(-2), movesList.at(-3), movesList.at(-4), movesList.at(-5)];
+                    var ao5tpsarray = [tpsList.at(-1), tpsList.at(-2), tpsList.at(-3), tpsList.at(-4), tpsList.at(-5)];
+                    ao5timearray.sort();
+                    ao5movesarray.sort();
+                    ao5tpsarray.sort();
+
+                    var ao5time = ((ao5timearray.at(2) + ao5timearray.at(3) + ao5timearray.at(4)) / 3);
+                    var ao5moves = ((ao5movesarray.at(2) + ao5movesarray.at(3) + ao5movesarray.at(4)) / 3);
+                    var ao5tps = ((ao5tpsarray.at(2) + ao5tpsarray.at(3) + ao5tpsarray.at(4)) / 3);
+
+                    ao5time = ao5time.toFixed(3);
+                    ao5moves = ao5moves.toFixed(3);
+                    ao5tps = ao5tps.toFixed(3);
+
+                    var ao5text = "Average of 5: " + ao5time + ", " + ao5moves + "moves, " + ao5tps + "tps";
+                    $("avg5").innerHTML = ao5text;
+
+                    //ao12
+                    var ao12timearray = timeList.slice(-12);
+                    var ao12movesarray = movesList.slice(-12);
+                    var ao12tpsarray = tpsList.slice(-12);
+                    ao12timearray.sort();
+                    ao12movesarray.sort();
+                    ao12tpsarray.sort();
+
+                    var ao12time = ao12timearray.slice(2,11);
+                    var ao12moves = ao12movesarray.slice(2,11);
+                    var ao12tps = ao12tpsarray.slice(2,11);
+
+                    ao12time = ao12time.toFixed(3);
+                    ao12moves = ao12moves.toFixed(3);
+                    ao12tps = ao12tps.toFixed(3);
+
+                    var ao12text = "Average of 12: " + ao12time + ", " + ao12moves + "moves, " + ao12tps + "tps";
+                    $("avg12").innerHTML = ao12text;
                 }
             }
         }
@@ -373,19 +414,26 @@
 </head>
 
 <body onload="init()" text="black" oncontextmenu="return false;">
+    <header>
+            <div class="buttons">
+            <button onclick = "fringescheme()">Fringe</button>
+            <button onclick = "oldscheme()">Old Scheme</button>
+            <button onclick = "whitescheme()">White</button>
+        </div>
+    </header>
     <div class="center">
         <div id="stats"></div>
         <div id="cube"><canvas width="800" height="800" id="c"></canvas></div>
-        <span id="solveTime"></span>
+        <span class="statistics" id="solveTime"></span>
         <br>
         <span id="solvingTime"></span>
         <br>
-        <span id="mean3"></span>
-    <div class="buttons">
-        <button onclick = "fringescheme()">Fringe</button>
-        <button onclick = "oldscheme()">Old Scheme</button>
-        <button onclick = "whitescheme()">White</button>
-    </div>
+        <span class="statistics" id="mean3"></span>
+        <br>
+        <span class="statistics" id="avg5"></span>
+        <br>
+        <span class="statistics" id="avg12"></span>
+
 </body>
 
 </html>
