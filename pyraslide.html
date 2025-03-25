@@ -59,13 +59,16 @@
         var solveState = 0; // 0 = nothing, 1 = inspection, 2 = solving
         var startTime = undefined;
         var moves = 0;
+        var timeList = [];
+        var movesList = [];
+        var tpsList = [];
 
         const intervalID = setInterval(myTimer, 10);
 
         function myTimer() {
             if (solveState != 0 && !isNaN(startTime)) {
                 var mytime = ((Date.now() - startTime) / 1000)
-                $("solvingTime").innerHTML = mytime.toFixed(3) + "<br>" + moves + " moves<br>"+(moves/mytime).toFixed(3) + " tps";
+                $("solvingTime").innerHTML = mytime.toFixed(3) + "<br>" + moves + " moves<br>"+(mytime/moves).toFixed(3) + " tps";
             }
         }
 
@@ -249,6 +252,25 @@
                     var statsText = finaltime.toFixed(3) + ", " + moves + " moves, " + (moves/finaltime).toFixed(3) + " tps";
                     $("solveTime").innerHTML = "Last solve: "+statsText;
                     $("stats").innerHTML = statsText + "<br>" + $("stats").innerHTML;
+                    //indexes of move, time, tps
+                    timeList.push (finaltime);
+                    movesList.push (moves);
+                    tpsList.push (moves/finaltime);
+                    //average calculations
+                    console.log (timeList.at(-1));
+                    console.log (movesList);
+                    console.log (tpsList);
+                    //mo3 variables
+                    var mo3time = ((timeList.at(-1)+timeList.at(-2)+timeList.at(-3))/3) ;
+                    var mo3moves = ((movesList.at(-1)+movesList.at(-2)+movesList.at(-3))/3) ;
+                    var mo3tps = ((tpsList.at(-1)+tpsList.at(-2)+tpsList.at(-3))/3) ;
+                    console.log (mo3time);
+                    mo3tps = mo3tps.toFixed(3);
+                    mo3time = mo3time.toFixed(3);
+                    mo3moves = mo3moves.toFixed(3);
+                    var mo3text = "Mean of 3: " + mo3time + ", " + mo3moves + " moves, " + mo3tps + " tps";
+                    $("mean3").innerHTML = mo3text;
+
                 }
             }
         }
@@ -347,7 +369,6 @@
                         mc[0], mc[0], mc[0]];
             draw()
         }
-        
     </script>
 </head>
 
@@ -358,6 +379,8 @@
         <span id="solveTime"></span>
         <br>
         <span id="solvingTime"></span>
+        <br>
+        <span id="mean3"></span>
     <div class="buttons">
         <button onclick = "fringescheme()">Fringe</button>
         <button onclick = "oldscheme()">Old Scheme</button>
